@@ -1,0 +1,9 @@
+name: ${project.name}
+version: ${project.version}
+author: SystemUpdate
+main: ${project.groupId}.${project.name}
+commands:
+  simplehomes: {}
+  sethome: {}
+  delhome: {}
+  home: {}
