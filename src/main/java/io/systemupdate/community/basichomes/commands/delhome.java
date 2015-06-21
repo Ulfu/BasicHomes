@@ -16,53 +16,42 @@ public class delhome implements CommandExecutor{
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+        User user = null;
+        String homeName = "";
+        boolean isPlayer = true;
         if(!(sender instanceof Player)){
-            sender.sendMessage(BasicHomes.instance.lang.getText("console-sender"));
+            isPlayer = false;
         }
-        if(sender instanceof Player){
-            if (args.length == 1){
-                if(sender.hasPermission("basichomes.delhome")){
-                    String homeName = args[0];
-                    Player player = (Player) sender;
-                    if (homeName.contains(":") && sender.hasPermission("basichomes.delhome.other")){
-                        String user = homeName.split(":", 2)[0];
-                        OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(user);
-                        if (i == null) {
-                            sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
-                        } else {
-                            User userProfile;
-                            if(i.isOnline()){
-                                userProfile = BasicHomes.instance.userProfiles.get(i.getUniqueId());
-                            }else{
-                                userProfile = new User(i.getUniqueId());
-                            }
-                            homeName = homeName.replaceFirst(user + ":", "");
-                            if(userProfile.getHome(homeName) == null){
-                                sender.sendMessage(BasicHomes.instance.lang.getText("home-dont-exist"));
-                            }else{
-                                userProfile.delHome(homeName);
-                                sender.sendMessage(BasicHomes.instance.lang.getText("home-deleted"));
-                            }
-                        }
+        if(args.length == 1 && (sender.hasPermission("basichomes.delhome") || !isPlayer)){
+            if(args[0].contains(":") && (sender.hasPermission("basichomes.delhome.other") || !isPlayer)){
+                String username = args[0].split(":", 2)[0];
+                homeName = args[0].replaceFirst(username, "");
+                OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(username);
+                if(i != null){
+                    if(i.isOnline()){
+                        user = BasicHomes.instance.userProfiles.get(i.getUniqueId());
                     }else{
-                        User user = BasicHomes.instance.userProfiles.get(player.getUniqueId());
-                        if(user.getHome(homeName) == null){
-                            sender.sendMessage(BasicHomes.instance.lang.getText("home-dont-exist"));
-                        }else{
-                            user.delHome(homeName);
-                            sender.sendMessage(BasicHomes.instance.lang.getText("home-deleted"));
-                        }
+                        user = new User(i.getUniqueId());
                     }
                 }else{
-                    sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
+                    sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
                 }
             }else{
-                if(sender.hasPermission("basichomes.delhome.other")){
-                    sender.sendMessage(BasicHomes.instance.lang.getText("delhome-invalid-usage-admin"));
-                }else{
-                    sender.sendMessage(BasicHomes.instance.lang.getText("delhome-invalid-usage"));
-                }
+                homeName = args[0];
+                user = BasicHomes.instance.userProfiles.get(((Player)sender).getUniqueId());
             }
+            if(user.getHome(homeName) != null){
+                user.delHome(homeName);
+                sender.sendMessage(BasicHomes.instance.lang.getText("home-deleted"));
+            }else{
+                sender.sendMessage(BasicHomes.instance.lang.getText("home-dont-exist"));
+            }
+        }else if(sender.hasPermission("basichomes.delhome.other") || !isPlayer){
+            sender.sendMessage(BasicHomes.instance.lang.getText("delhome-invalid-usage-admin"));
+        }else if(sender.hasPermission("basichomes.delhome")){
+            sender.sendMessage(BasicHomes.instance.lang.getText("delhome-invalid-usage"));
+        }else{
+            sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
         }
         return false;
     }
