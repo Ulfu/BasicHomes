@@ -3,16 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.systemupdate.community.simplehomes</groupId>
-    <artifactId>Community-SimpleHomes</artifactId>
-    <version>1.0-${maven.build.timestamp}</version>
+    <groupId>io.systemupdate.community.basichomes</groupId>
+    <artifactId>Community-BasicHomes</artifactId>
+    <version>0.0.2-${maven.build.timestamp}</version>
     <packaging>jar</packaging>
-    <name>SimpleHomes</name>
-    <description>Private Plugin</description>
+    <name>BasicHomes</name>
+    <description>Community Plugin</description>
     <url>http://systemupdate.io</url>
     <build>
         <defaultGoal>clean install</defaultGoal>
-        <finalName>SimpleHomes</finalName>
+        <finalName>BasicHomes</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>

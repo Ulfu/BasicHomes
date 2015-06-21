@@ -1,10 +1,9 @@
-simplehomes-cmd-title: "--Simple Homes--"
-#If you wannna be a real dick, feel free to remove my credit
+simplehomes-cmd-title: "--Basic Homes--"
 simplehomes-cmd-authors: "Author(s): %s."
 simplehomes-cmd-resourselink: "Resourse Link: %s."
 simplehomes-cmd-version: "Current Version: %s"
 simplehomes-cmd-new-version: "New Version: %s"
-update-available: "[SimpleHomes] New Update Available, Please see /simplehomes for more information"
+update-available: "[BasicHomes] New Update Available, Please see /simplehomes for more information"
 console-sender: "Console cannot perform this action."
 sethome-invalid-usage: "Invalid Usage, /sethome name"
 sethome-invalid-usage-admin: "Invalid Usage, /sethome (player:)name"
