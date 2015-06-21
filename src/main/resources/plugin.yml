@@ -3,7 +3,8 @@ version: ${project.version}
 author: SystemUpdate
 main: ${project.groupId}.${project.name}
 commands:
-  simplehomes: {}
+  basichomes: {}
   sethome: {}
   delhome: {}
   home: {}
+  homes: {}

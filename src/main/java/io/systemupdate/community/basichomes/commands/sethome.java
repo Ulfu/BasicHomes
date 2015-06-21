@@ -21,10 +21,10 @@ public class sethome implements CommandExecutor{
         }
         if(sender instanceof Player){
             if(args.length == 1){
-                if(sender.hasPermission("simplehomes.sethome")){
+                if(sender.hasPermission("basichomes.sethome")){
                     String homeName = args[0];
                     Player player = (Player)sender;
-                    if(homeName.contains(":") && sender.hasPermission("simplehomes.sethome.other")){
+                    if(homeName.contains(":") && sender.hasPermission("basichomes.sethome.other")){
                         String user = homeName.split(":", 2)[0];
                         OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(user);
                         if(i == null){

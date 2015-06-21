@@ -46,7 +46,7 @@ public class UpdateChecker {
                 connection.setRequestMethod("POST");
                 connection.getOutputStream().write(("key=" + apiKey + "&resource=" + resourceId).getBytes("UTF-8"));
                 resourceVersion = Double.valueOf(new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine());
-                if(resourceVersion != version){
+                if(resourceVersion > version){
                     updateResult = UpdateResult.AVAILABLE;
                     BasicHomes.instance.getLogger().warning("[Update] New update available - Current Version is " + version + " and new update version is " + resourceVersion);
                     BasicHomes.instance.getLogger().warning("[Update] You can download the update from http://www.spigotmc.org/resources/" + resourceId + "/");

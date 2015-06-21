@@ -34,20 +34,22 @@ public class User{
             }
         }
         userConfig = YamlConfiguration.loadConfiguration(userFile);
-        for(String i : userConfig.getKeys(false)){
-            homes.put(i, new Location(
-                    Bukkit.getServer().getWorld(userConfig.getString(i + ".World")),
-                    userConfig.getDouble("Home." + i + ".X"),
-                    userConfig.getDouble("Home." + i + ".Y"),
-                    userConfig.getDouble("Home." + i + ".Z"),
-                    userConfig.getLong("Home." + i + ".Yaw"),
-                    userConfig.getLong("Home." + i + ".Pitch")));
+        if(userConfig.getConfigurationSection("Home") != null){
+            for(String i : userConfig.getConfigurationSection("Home").getKeys(false)){
+                homes.put(i, new Location(
+                        Bukkit.getServer().getWorld(userConfig.getString("Home." + i + ".World")),
+                        userConfig.getDouble("Home." + i + ".X"),
+                        userConfig.getDouble("Home." + i + ".Y"),
+                        userConfig.getDouble("Home." + i + ".Z"),
+                        userConfig.getLong("Home." + i + ".Yaw"),
+                        userConfig.getLong("Home." + i + ".Pitch")));
+            }
         }
         Player player = Bukkit.getServer().getPlayer(uuid);
         if(player != null){
             for(PermissionAttachmentInfo i : player.getEffectivePermissions()){
-                if(i.getPermission().startsWith("simplehomes.max.")){
-                    int value = Integer.valueOf(i.getPermission().replace("simplehomes.max.", ""));
+                if(i.getPermission().startsWith("basichomes.max.")){
+                    int value = Integer.valueOf(i.getPermission().replace("basichomes.max.", ""));
                     if(value > maxHomes){
                         maxHomes = value;
                     }

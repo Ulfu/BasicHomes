@@ -21,10 +21,10 @@ public class delhome implements CommandExecutor{
         }
         if(sender instanceof Player){
             if (args.length == 1){
-                if(sender.hasPermission("simplehomes.delhome")){
+                if(sender.hasPermission("basichomes.delhome")){
                     String homeName = args[0];
                     Player player = (Player) sender;
-                    if (homeName.contains(":") && sender.hasPermission("simplehomes.delhome.other")){
+                    if (homeName.contains(":") && sender.hasPermission("basichomes.delhome.other")){
                         String user = homeName.split(":", 2)[0];
                         OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(user);
                         if (i == null) {
@@ -57,7 +57,7 @@ public class delhome implements CommandExecutor{
                     sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
                 }
             }else{
-                if(sender.hasPermission("simplehomes.delhome.other")){
+                if(sender.hasPermission("basichomes.delhome.other")){
                     sender.sendMessage(BasicHomes.instance.lang.getText("delhome-invalid-usage-admin"));
                 }else{
                     sender.sendMessage(BasicHomes.instance.lang.getText("delhome-invalid-usage"));

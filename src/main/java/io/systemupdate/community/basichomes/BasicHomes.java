@@ -1,9 +1,6 @@
 package io.systemupdate.community.basichomes;
 
-import io.systemupdate.community.basichomes.commands.delhome;
-import io.systemupdate.community.basichomes.commands.home;
-import io.systemupdate.community.basichomes.commands.sethome;
-import io.systemupdate.community.basichomes.commands.simplehomes;
+import io.systemupdate.community.basichomes.commands.*;
 import io.systemupdate.community.basichomes.listeners.PlayerJoinListener;
 import io.systemupdate.community.basichomes.listeners.PlayerKickListener;
 import io.systemupdate.community.basichomes.listeners.PlayerQuitListener;
@@ -59,9 +56,10 @@ public class BasicHomes extends JavaPlugin {
             pm.registerEvents(new PlayerMoveListener(), this);
             pm.registerEvents(new PlayerTeleportListener(), this);
         }*/
-        this.getCommand("simplehomes").setExecutor(new simplehomes());
-        this.getCommand("sethome").setExecutor(new sethome());
+        this.getCommand("basichomes").setExecutor(new basichomes());
+        this.getCommand("homes").setExecutor(new homes());
         this.getCommand("home").setExecutor(new home());
+        this.getCommand("sethome").setExecutor(new sethome());
         this.getCommand("delhome").setExecutor(new delhome());
         if(this.getConfig().getConfigurationSection("illegalCharacters") != null){
             for(String i : this.getConfig().getStringList("illegalCharacters")){
