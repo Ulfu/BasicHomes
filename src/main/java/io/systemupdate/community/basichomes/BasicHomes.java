@@ -52,7 +52,7 @@ public class BasicHomes extends JavaPlugin {
         pm.registerEvents(new PlayerJoinListener(), this);
         pm.registerEvents(new PlayerQuitListener(), this);
         pm.registerEvents(new PlayerKickListener(), this);
-       /* if(true){//TODO Change to config boolean && /homeinfo command - creation data/creator/location (x/y/z) (ADD /DELHOME SUPPORT @ CONSOLE)
+       /* if(true){//TODO Change to config boolean && /homeinfo command - creation data/creator/location (x/y/z) - Need to rework /homes, /home
             pm.registerEvents(new PlayerMoveListener(), this);
             pm.registerEvents(new PlayerTeleportListener(), this);
         }*/

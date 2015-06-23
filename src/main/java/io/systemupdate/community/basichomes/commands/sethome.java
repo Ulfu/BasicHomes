@@ -21,63 +21,47 @@ public class sethome implements CommandExecutor{
         }
         if(sender instanceof Player){
             if(args.length == 1){
-                if(sender.hasPermission("basichomes.sethome")){
-                    String homeName = args[0];
-                    Player player = (Player)sender;
-                    if(homeName.contains(":") && sender.hasPermission("basichomes.sethome.other")){
-                        String user = homeName.split(":", 2)[0];
-                        OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(user);
-                        if(i == null){
-                            sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
+                String homeName = args[0];
+                User user = null;
+                Player player = (Player)sender;
+                if(homeName.contains(":") && sender.hasPermission("basichomes.sethome.other")){
+                    String username = args[0].split(":", 2)[0];
+                    homeName = args[0].replaceFirst(username, "");
+                    OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(username);
+                    if(i != null){
+                        if(i.isOnline()){
+                            user = BasicHomes.instance.userProfiles.get(i.getUniqueId());
                         }else{
-                            User userProfile;
-                            if(i.isOnline()){
-                                userProfile = BasicHomes.instance.userProfiles.get(i.getUniqueId());
-                            }else{
-                                userProfile = new User(i.getUniqueId());
-                            }
-                            homeName = homeName.replaceFirst(user + ":", "");
-                            for(String i2: homeName.split("home-contains-illegal-character")){
-                                if(BasicHomes.instance.illegalCharacters.contains(i2.toLowerCase())){
-                                    sender.sendMessage(BasicHomes.instance.lang.getText("sethome-successful"));
-                                    return false;
-                                }
-                            }
-                            if(userProfile.getHome(homeName) == null){
-                                userProfile.addHome(homeName, player.getLocation());
-                                sender.sendMessage(BasicHomes.instance.lang.getText("sethome-successful"));
-                            }else{
-                                sender.sendMessage(BasicHomes.instance.lang.getText("sethome-home-exists"));
-                            }
+                            user = new User(i.getUniqueId());
                         }
                     }else{
-                        User user = BasicHomes.instance.userProfiles.get(player.getUniqueId());
-                        if(user.getHome(homeName) == null){
-                            if(user.getHomes().size() >= user.getMaxHomes()){
-                                sender.sendMessage(BasicHomes.instance.lang.getText("max-homes-reached"));
-                            }else{
-                                for(String i : homeName.split("home-contains-illegal-character")){
-                                    if(BasicHomes.instance.illegalCharacters.contains(i.toLowerCase())){
-                                        sender.sendMessage(BasicHomes.instance.lang.getText("home-contains-illegal-character"));
-                                        return false;
-                                    }
-                                }
-                                user.addHome(homeName, player.getLocation());
-                                sender.sendMessage(BasicHomes.instance.lang.getText("sethome-successful"));
-                            }
-                        }else{
-                            sender.sendMessage(BasicHomes.instance.lang.getText("sethome-home-exists"));
-                        }
+                        sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
                     }
                 }else{
-                    sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
+                    user = BasicHomes.instance.userProfiles.get(player.getUniqueId());
                 }
-            }else{
-                if(sender.hasPermission("simplehomes.sethome.other")){
-                    sender.sendMessage(BasicHomes.instance.lang.getText("sethome-invalid-usage-admin"));
+                if(user.getHome(homeName) != null){
+                    sender.sendMessage(BasicHomes.instance.lang.getText("sethome-home-exists"));
                 }else{
-                    sender.sendMessage(BasicHomes.instance.lang.getText("sethome-invalid-usage"));
+                    if(user.getHomes().size() >= user.getMaxHomes() || player.hasPermission("basichomes.sethome.other")){
+                        sender.sendMessage(BasicHomes.instance.lang.getText("max-homes-reached"));
+                    }else{
+                        for(String i : homeName.split("home-contains-illegal-character")){
+                            if(BasicHomes.instance.illegalCharacters.contains(i.toLowerCase())){
+                                sender.sendMessage(BasicHomes.instance.lang.getText("home-contains-illegal-character"));
+                                return false;
+                            }
+                        }
+                        user.addHome(homeName, player.getLocation());
+                        sender.sendMessage(BasicHomes.instance.lang.getText("sethome-successful"));
+                    }
                 }
+            }else if(sender.hasPermission("basichomes.sethome.other")){
+                sender.sendMessage(BasicHomes.instance.lang.getText("sethome-invalid-usage-admin"));
+            }else if(sender.hasPermission("basichomes.sethome")){
+                sender.sendMessage(BasicHomes.instance.lang.getText("sethome-invalid-usage"));
+            }else{
+                sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
             }
         }
         return false;

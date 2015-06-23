@@ -48,6 +48,10 @@ public class User{
         Player player = Bukkit.getServer().getPlayer(uuid);
         if(player != null){
             for(PermissionAttachmentInfo i : player.getEffectivePermissions()){
+                if(i.getPermission().equalsIgnoreCase("basichomes.max.unlimited")){
+                    maxHomes = Integer.MAX_VALUE;
+                    break;
+                }
                 if(i.getPermission().startsWith("basichomes.max.")){
                     int value = Integer.valueOf(i.getPermission().replace("basichomes.max.", ""));
                     if(value > maxHomes){
