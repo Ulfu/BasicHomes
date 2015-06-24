@@ -26,7 +26,7 @@ public class sethome implements CommandExecutor{
                 Player player = (Player)sender;
                 if(homeName.contains(":") && sender.hasPermission("basichomes.sethome.other")){
                     String username = args[0].split(":", 2)[0];
-                    homeName = args[0].replaceFirst(username, "");
+                    homeName = args[0].replaceFirst(username + ":", "");
                     OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(username);
                     if(i != null){
                         if(i.isOnline()){
@@ -36,26 +36,27 @@ public class sethome implements CommandExecutor{
                         }
                     }else{
                         sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
+                        return false;
                     }
                 }else{
                     user = BasicHomes.instance.userProfiles.get(player.getUniqueId());
                 }
                 if(user.getHome(homeName) != null){
                     sender.sendMessage(BasicHomes.instance.lang.getText("sethome-home-exists"));
-                }else{
-                    if(user.getHomes().size() >= user.getMaxHomes() || player.hasPermission("basichomes.sethome.other")){
-                        sender.sendMessage(BasicHomes.instance.lang.getText("max-homes-reached"));
-                    }else{
-                        for(String i : homeName.split("home-contains-illegal-character")){
-                            if(BasicHomes.instance.illegalCharacters.contains(i.toLowerCase())){
-                                sender.sendMessage(BasicHomes.instance.lang.getText("home-contains-illegal-character"));
-                                return false;
-                            }
-                        }
-                        user.addHome(homeName, player.getLocation());
-                        sender.sendMessage(BasicHomes.instance.lang.getText("sethome-successful"));
+                    return false;
+                }
+                if(user.getHomes().size() >= user.getMaxHomes() && !player.hasPermission("basichomes.sethome.other")){
+                    sender.sendMessage(BasicHomes.instance.lang.getText("max-homes-reached"));
+                    return false;
+                }
+                for(String i : homeName.split("home-contains-illegal-character")){
+                    if(BasicHomes.instance.illegalCharacters.contains(i.toLowerCase())){
+                        sender.sendMessage(BasicHomes.instance.lang.getText("home-contains-illegal-character"));
+                        return false;
                     }
                 }
+                user.addHome(homeName, player.getLocation());
+                sender.sendMessage(BasicHomes.instance.lang.getText("sethome-successful"));
             }else if(sender.hasPermission("basichomes.sethome.other")){
                 sender.sendMessage(BasicHomes.instance.lang.getText("sethome-invalid-usage-admin"));
             }else if(sender.hasPermission("basichomes.sethome")){

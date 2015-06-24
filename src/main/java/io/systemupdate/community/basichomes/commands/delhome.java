@@ -25,7 +25,7 @@ public class delhome implements CommandExecutor{
         if(args.length == 1 && (sender.hasPermission("basichomes.delhome") || !isPlayer)){
             if(args[0].contains(":") && (sender.hasPermission("basichomes.delhome.other") || !isPlayer)){
                 String username = args[0].split(":", 2)[0];
-                homeName = args[0].replaceFirst(username, "");
+                homeName = args[0].replaceFirst(username + ":", "");
                 OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(username);
                 if(i != null){
                     if(i.isOnline()){
@@ -36,6 +36,9 @@ public class delhome implements CommandExecutor{
                 }else{
                     sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
                 }
+            }else if(!isPlayer){
+                sender.sendMessage(BasicHomes.instance.lang.getText("delhome-invalid-usage-admin"));
+                return false;
             }else{
                 homeName = args[0];
                 user = BasicHomes.instance.userProfiles.get(((Player)sender).getUniqueId());

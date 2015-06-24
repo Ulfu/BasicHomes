@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.systemupdate.community.basichomes</groupId>
     <artifactId>Community-BasicHomes</artifactId>
-    <version>0.2-${maven.build.timestamp}</version>
+    <version>0.3-${maven.build.timestamp}</version>
     <packaging>jar</packaging>
     <name>BasicHomes</name>
     <description>Community Plugin</description>

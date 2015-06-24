@@ -16,25 +16,34 @@ public class homes implements CommandExecutor{
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-        if(args.length != 1 && !(sender instanceof Player)){
-            sender.sendMessage(BasicHomes.instance.lang.getText("console-sender"));
-        }else{
+        boolean isConsole = false;
+        if(!(sender instanceof Player)){
+            isConsole = true;
+        }
+        if(sender.hasPermission("basichomes.homes") || isConsole){
             User user = null;
-            if(args.length >= 1 && (sender.hasPermission("basichomes.homes.other"))){
-                OfflinePlayer i = Bukkit.getServer().getOfflinePlayer(args[0]);
-                if(i != null){
-                    if(i.isOnline()){
-                        user = BasicHomes.instance.userProfiles.get(i.getUniqueId());
+            if(args.length >= 1){
+                if(sender.hasPermission("basichomes.homes.other") || isConsole){
+                    OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(args[0]);
+                    if(player != null){
+                        if(player.isOnline()){
+                            user = BasicHomes.instance.userProfiles.get(player.getUniqueId());
+                        }else{
+                            user = new User(player.getUniqueId());
+                        }
                     }else{
-                        user = new User(i.getUniqueId());
-                        Bukkit.getServer().broadcastMessage("3");
+                        sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
+                        return false;
                     }
+                }else{
+                    sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
+                    return false;
                 }
-            }else if(sender.hasPermission("basichomes.homes")){
-                user = BasicHomes.instance.userProfiles.get(((Player) sender).getUniqueId());
-            }else{
-                sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
+            }else if(isConsole){
+                sender.sendMessage(BasicHomes.instance.lang.getText("homes-invalid-usage-admin"));
                 return false;
+            }else{
+                user = BasicHomes.instance.userProfiles.get(((Player)sender).getUniqueId());
             }
             int homes = user.getHomes().size();
             if(homes == 0){
@@ -52,6 +61,9 @@ public class homes implements CommandExecutor{
                 }
                 sender.sendMessage(homesValue);
             }
+        }else{
+            Bukkit.getServer().broadcastMessage("1");
+            sender.sendMessage(BasicHomes.instance.lang.getText("no-permission"));
         }
         return false;
     }
