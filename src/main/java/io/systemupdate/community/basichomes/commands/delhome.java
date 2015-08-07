@@ -30,6 +30,9 @@ public class delhome implements CommandExecutor{
                 if(i != null){
                     if(i.isOnline()){
                         user = BasicHomes.instance.userProfiles.get(i.getUniqueId());
+                    }else if(!i.hasPlayedBefore()){
+                        sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
+                        return false;
                     }else{
                         user = new User(i.getUniqueId());
                     }
@@ -45,7 +48,7 @@ public class delhome implements CommandExecutor{
             }
             if(user.getHome(homeName) != null){
                 user.delHome(homeName);
-                sender.sendMessage(BasicHomes.instance.lang.getText("home-deleted"));
+                sender.sendMessage(String.format(BasicHomes.instance.lang.getText("home-deleted"), homeName));
             }else{
                 sender.sendMessage(BasicHomes.instance.lang.getText("home-dont-exist"));
             }

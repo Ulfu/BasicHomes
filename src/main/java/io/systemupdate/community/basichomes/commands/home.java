@@ -31,10 +31,13 @@ public class home implements CommandExecutor{
                             sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
                         }else{
                             User userProfile;
-                            if (i.isOnline()) {
+                            if(i.isOnline()){
                                 userProfile = BasicHomes.instance.userProfiles.get(i.getUniqueId());
-                            } else {
-                                userProfile = new User(i.getUniqueId());
+                            }else if(!i.hasPlayedBefore()){
+                                sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
+                                return false;
+                            }else{
+                                userProfile = new User(player.getUniqueId());
                             }
                             homeName = homeName.replaceFirst(user + ":", "");
                             if(userProfile.getHome(homeName) != null){

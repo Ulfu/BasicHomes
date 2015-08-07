@@ -28,6 +28,9 @@ public class homes implements CommandExecutor{
                     if(player != null){
                         if(player.isOnline()){
                             user = BasicHomes.instance.userProfiles.get(player.getUniqueId());
+                        }else if(!player.hasPlayedBefore()){
+                            sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
+                            return false;
                         }else{
                             user = new User(player.getUniqueId());
                         }

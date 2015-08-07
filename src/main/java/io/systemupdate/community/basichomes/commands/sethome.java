@@ -31,6 +31,9 @@ public class sethome implements CommandExecutor{
                     if(i != null){
                         if(i.isOnline()){
                             user = BasicHomes.instance.userProfiles.get(i.getUniqueId());
+                        }else if(!i.hasPlayedBefore()){
+                            sender.sendMessage(BasicHomes.instance.lang.getText("Player-Not-Found"));
+                            return false;
                         }else{
                             user = new User(i.getUniqueId());
                         }
@@ -56,7 +59,7 @@ public class sethome implements CommandExecutor{
                     }
                 }
                 user.addHome(homeName, player.getLocation());
-                sender.sendMessage(BasicHomes.instance.lang.getText("sethome-successful"));
+                sender.sendMessage(String.format(BasicHomes.instance.lang.getText("sethome-successful"), homeName));
             }else if(sender.hasPermission("basichomes.sethome.other")){
                 sender.sendMessage(BasicHomes.instance.lang.getText("sethome-invalid-usage-admin"));
             }else if(sender.hasPermission("basichomes.sethome")){

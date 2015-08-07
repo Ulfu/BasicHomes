@@ -1,1 +1,8 @@
+#Characters not allowed in home names
 Illegal-Characters: []
+
+#Setting this to false will disable the update checks
+Updater: true
+
+#Setting this to false will disable metrics for this plugin, metrics can be disabled globally via editting /plugins/PluginMetrics/config.yml
+Metrics: true

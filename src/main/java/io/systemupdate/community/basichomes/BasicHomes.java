@@ -11,8 +11,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.MetricsLite;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,7 @@ public class BasicHomes extends JavaPlugin {
     public void onDisable(){
         userProfiles.clear();
         updateChecker.endChecking();
+        Bukkit.getServer().getScheduler().cancelTasks(this);
     }
 
     private void registerEvents(){
@@ -74,5 +77,9 @@ public class BasicHomes extends JavaPlugin {
         for(Player i : Bukkit.getServer().getOnlinePlayers()){
             userProfiles.put(i.getUniqueId(), new User(i.getUniqueId()));
         }
+        try{
+            MetricsLite metrics = new MetricsLite(this);
+            metrics.start();
+        }catch(IOException e){}
     }
 }

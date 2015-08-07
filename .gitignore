@@ -1,7 +1,8 @@
 *.class
 
 # Mobile Tools for Java (J2ME)
-.mtj.tmp/
+.mtj
+.tmp/
 
 # Package Files #
 *.jar
@@ -14,6 +15,9 @@ hs_err_pid*
 # Idea
 .idea
 *.iml
+*.ipr
+*.iws
 
 #Maven
 /target/*
+dependency-reduced-pom.xml
