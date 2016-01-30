@@ -21,7 +21,7 @@ public class User{
     private HashMap<String, Location> homes = new HashMap<>();
     private File userFile;
     private YamlConfiguration userConfig;
-    private int maxHomes = 0;
+    private int maxHomes = 1;
 
     public User(final UUID uuid){
         this.playerUUID = uuid;
